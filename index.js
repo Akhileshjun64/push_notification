@@ -4,6 +4,7 @@ const app = express();
 const multer = require("multer");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,6 +44,25 @@ app.get("/product", async (req, res) => {
     res.send({ result: "Done", data: data });
   } catch (error) {
     console.log(error);
+  }
+});
+
+app.get("/myproduct/:_id", async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const data = await model.findById(_id);
+
+    if (!data) {
+      return res
+        .status(404)
+        .send({ result: "Error", message: "Product not found" });
+    }
+
+    const imagePath = path.join(__dirname, "public/images", data.imagefile);
+    res.sendFile(imagePath);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ result: "Error", message: "Internal Server Error" });
   }
 });
 
