@@ -6,7 +6,7 @@ mongoose.set("strictQuery", true);
 mongoose
   .connect(process.env.mongo_Cloud_DB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useUnifiedTopology: true,
   })
   .then(() => {
     console.log("Connected to MongoDB");
